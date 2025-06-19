@@ -1,0 +1,15 @@
+{% extends 'core/home.html' %}
+{% load static %}
+
+{% block title %}Adicionar Tipo de Vacina{% endblock %}
+
+{% block content %}
+<h2>Adicionar Tipo de Vacina</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Salvar</button>
+  <a href="{% url 'core:list_types' %}">Cancelar</a>
+</form>
+{% endblock %}

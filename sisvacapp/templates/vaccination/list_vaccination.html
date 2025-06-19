@@ -1,0 +1,34 @@
+{% extends "core/home.html" %}
+{% block content %}
+<h1>Lista de Vacinações</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Pessoa</th>
+      <th>Vacina</th>
+      <th>Data</th>
+      <th>Quantidade</th>
+      <th>Atendimento</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for vaccination in vaccinations %}
+    <tr>
+      <td>{{ vaccination.person.name }}</td>
+      <td>{{ vaccination.vaccine_item.vaccine.name }}</td>
+      <td>{{ vaccination.date }}</td>
+      <td>{{ vaccination.quantity }}</td>
+      <td>{{ vaccination.session.date }} - {{ vaccination.session.clinic.name }}</td>
+      <td>
+        <a href="{% url 'core:edit_vaccination' vaccination.id %}">Editar</a> |
+        <a href="{% url 'core:delete_vaccination' vaccination.id %}">Excluir</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">Nenhuma vacinação registrada.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{% url 'core:add_vaccination' %}">Registrar Vacinação</a>
+{% endblock %}

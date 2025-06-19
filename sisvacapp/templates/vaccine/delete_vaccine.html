@@ -1,0 +1,11 @@
+{% extends 'core/home.html' %}
+{% block title %}Excluir Vacina{% endblock %}
+{% block content %}
+<h2>Excluir Vacina</h2>
+<p>Tem certeza que deseja excluir a vacina <strong>{{ vaccine.name }}</strong>?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Confirmar Exclusão</button>
+  <a href="{% url 'core:list_vaccines' %}">Cancelar</a>
+</form>
+{% endblock %}

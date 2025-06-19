@@ -1,0 +1,12 @@
+{% extends 'core/home.html' %}
+{% block content %}
+<h1>Editar Pessoa</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Salvar Alterações</button>
+</form>
+
+<a href="{% url 'core:list_person' %}">Cancelar</a>
+{% endblock %}

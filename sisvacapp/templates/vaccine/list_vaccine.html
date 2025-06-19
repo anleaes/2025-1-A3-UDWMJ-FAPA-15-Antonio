@@ -1,0 +1,35 @@
+{% extends 'core/home.html' %}
+{% block title %}Lista de Vacinas{% endblock %}
+{% block content %}
+<h2>Vacinas</h2>
+<a href="{% url 'core:add_vaccine' %}">Adicionar Vacina</a>
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Descrição</th>
+      <th>Tipo</th>
+      <th>Doses</th>
+      <th>Fornecedor</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for vaccine in vaccines %}
+    <tr>
+      <td>{{ vaccine.name }}</td>
+      <td>{{ vaccine.description }}</td>
+      <td>{{ vaccine.type.description }}</td>
+      <td>{{ vaccine.doses }}</td>
+      <td>{{ vaccine.supplier.name if vaccine.supplier else '' }}</td>
+      <td>
+        <a href="{% url 'core:edit_vaccine' vaccine.id %}">Editar</a> |
+        <a href="{% url 'core:delete_vaccine' vaccine.id %}">Excluir</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">Nenhuma vacina cadastrada.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

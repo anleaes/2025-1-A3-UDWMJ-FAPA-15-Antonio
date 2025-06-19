@@ -1,0 +1,11 @@
+{% extends 'core/home.html' %}
+{% block title %}Adicionar Vacina{% endblock %}
+{% block content %}
+<h2>Adicionar Vacina</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Salvar</button>
+  <a href="{% url 'core:list_vaccines' %}">Cancelar</a>
+</form>
+{% endblock %}

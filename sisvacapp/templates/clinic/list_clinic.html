@@ -1,0 +1,24 @@
+{% extends 'core/home.html' %}
+{% block content %}
+<h1>Lista de Clínicas</h1>
+<table>
+  <tr>
+    <th>Nome</th>
+    <th>Endereço</th>
+    <th>Ações</th>
+  </tr>
+  {% for clinic in clinics %}
+  <tr>
+    <td>{{ clinic.name }}</td>
+    <td>{{ clinic.address }}</td>
+    <td>
+      <a href="{% url 'core:edit_clinic' clinic.id %}">Editar</a> |
+      <a href="{% url 'core:delete_clinic' clinic.id %}">Excluir</a>
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="3">Nenhuma clínica cadastrada.</td></tr>
+  {% endfor %}
+</table>
+<a href="{% url 'core:add_clinic' %}">Adicionar Clínica</a>
+{% endblock %}

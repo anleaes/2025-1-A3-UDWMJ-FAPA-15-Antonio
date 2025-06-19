@@ -1,0 +1,10 @@
+{% extends "core/home.html" %}
+{% block content %}
+<h1>Excluir Atendimento (Session)</h1>
+<p>Tem certeza que deseja excluir o atendimento do dia <strong>{{ session.date }}</strong> na clínica <strong>{{ session.clinic.name }}</strong>?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Confirmar exclusão</button>
+  <a href="{% url 'core:list_session' %}">Cancelar</a>
+</form>
+{% endblock %}

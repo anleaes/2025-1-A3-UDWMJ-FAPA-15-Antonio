@@ -1,0 +1,16 @@
+{% extends 'core/home.html' %}
+{% load static %}
+
+{% block title %}Excluir Tipo de Vacina{% endblock %}
+
+{% block content %}
+<h2>Excluir Tipo de Vacina</h2>
+
+<p>Tem certeza que deseja excluir o tipo: <strong>{{ type.description }}</strong>?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Confirmar Exclusão</button>
+  <a href="{% url 'core:list_types' %}">Cancelar</a>
+</form>
+{% endblock %}

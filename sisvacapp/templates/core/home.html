@@ -1,0 +1,42 @@
+{% extends "core/base.html" %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block content %}
+<h2>Bem-vindo ao Sistema de Gerenciamento de Vacinas</h2>
+
+<nav>
+  <ul>
+    <li><strong>Pessoas (Person)</strong>
+      <ul>
+        <li><a href="{% url 'core:list_person' %}">Listar Pessoas</a></li>
+        <li><a href="{% url 'core:add_person' %}">Cadastrar Pessoa</a></li>
+      </ul>
+    </li>
+    <li><strong>Clínicas (Clinic)</strong>
+      <ul>
+        <li><a href="{% url 'core:list_clinic' %}">Listar Clínicas</a></li>
+        <li><a href="{% url 'core:add_clinic' %}">Cadastrar Clínica</a></li>
+      </ul>
+    </li>
+    <li><strong>Atendimentos (Session)</strong>
+      <ul>
+        <li><a href="{% url 'core:list_session' %}">Listar Atendimentos</a></li>
+        <li><a href="{% url 'core:add_session' %}">Registrar Atendimento</a></li>
+      </ul>
+    </li>
+    <li><strong>Vacinações (Vaccination)</strong>
+      <ul>
+        <li><a href="{% url 'core:list_vaccination' %}">Listar Vacinações</a></li>
+        <li><a href="{% url 'core:add_vaccination' %}">Registrar Vacinação</a></li>
+      </ul>
+    </li>
+    <li><strong>Itens de Vacina (VaccineItem)</strong>
+      <ul>
+        <li><a href="{% url 'core:list_vaccineitem' %}">Listar Itens de Vacina</a></li>
+        <li><a href="{% url 'core:add_vaccineitem' %}">Cadastrar Item de Vacina</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+{% endblock %}

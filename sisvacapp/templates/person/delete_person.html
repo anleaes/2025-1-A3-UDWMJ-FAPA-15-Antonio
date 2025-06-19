@@ -1,0 +1,11 @@
+{% extends 'core/home.html' %}
+{% block content %}
+<h1>Excluir Pessoa</h1>
+<p>Tem certeza que deseja excluir a pessoa <strong>{{ person.name }}</strong>?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Confirmar exclusão</button>
+  <a href="{% url 'core:list_person' %}">Cancelar</a>
+</form>
+{% endblock %}

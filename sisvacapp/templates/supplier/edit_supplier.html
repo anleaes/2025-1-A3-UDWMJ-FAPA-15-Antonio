@@ -1,0 +1,11 @@
+{% extends 'core/home.html' %}
+{% block title %}Editar Fornecedor{% endblock %}
+{% block content %}
+<h2>Editar Fornecedor</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Salvar Alterações</button>
+  <a href="{% url 'core:list_suppliers' %}">Cancelar</a>
+</form>
+{% endblock %}

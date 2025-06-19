@@ -1,0 +1,31 @@
+{% extends 'core/home.html' %}
+{% block title %}Lista de Fornecedores{% endblock %}
+{% block content %}
+<h2>Fornecedores</h2>
+<a href="{% url 'core:add_supplier' %}">Adicionar Fornecedor</a>
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>CNPJ</th>
+      <th>Endereço</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for supplier in suppliers %}
+    <tr>
+      <td>{{ supplier.name }}</td>
+      <td>{{ supplier.cnpj }}</td>
+      <td>{{ supplier.address }}</td>
+      <td>
+        <a href="{% url 'core:edit_supplier' supplier.id %}">Editar</a> |
+        <a href="{% url 'core:delete_supplier' supplier.id %}">Excluir</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">Nenhum fornecedor cadastrado.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

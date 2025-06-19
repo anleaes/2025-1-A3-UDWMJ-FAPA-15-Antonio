@@ -1,0 +1,53 @@
+{% extends "core/home.html" %}
+{% block content %}
+<h1>Lista de Atendimentos (Sessions)</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th>Clínica</th>
+      <th>Vacinas Aplicadas</th>
+      <th>Detalhes das Vacinas</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for session in sessions %}
+    <tr>
+      <td>{{ session.date }}</td>
+      <td>{{ session.clinic.name }}</td>
+      <td>
+        {% if session.vaccination_set.exists %}
+          {{ session.vaccination_set.count }} vacina(s)
+        {% else %}
+          Nenhuma vacina aplicada
+        {% endif %}
+      </td>
+      <td>
+        {% if session.vaccination_set.exists %}
+        <ul>
+          {% for vaccination in session.vaccination_set.all %}
+          <li>
+            <strong>{{ vaccination.vaccine_item.vaccine.name }}</strong> — 
+            Lote: {{ vaccination.vaccine_item.batch_number }}, 
+            Quantidade: {{ vaccination.quantity }}, 
+            Data: {{ vaccination.date }}
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+          -
+        {% endif %}
+      </td>
+      <td>
+        <a href="{% url 'core:edit_session' session.id %}">Editar</a> |
+        <a href="{% url 'core:delete_session' session.id %}">Excluir</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">Nenhum atendimento registrado.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{% url 'core:add_session' %}">Registrar Atendimento</a>
+{% endblock %}
