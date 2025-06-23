@@ -1,45 +1,57 @@
 from django.db import models
 
+# Modelo para tipos de vacinas
 class Type(models.Model):
-    # Tipo de vacina, descrição curta
     description = models.CharField('Descrição', max_length=100)
 
     class Meta:
         verbose_name = 'Tipo'
         verbose_name_plural = 'Tipos'
+        ordering = ['description']  # Ordenação padrão por descrição
 
     def __str__(self):
-        return self.description
+        return str(self.description)
 
 
+# Modelo para fornecedores de vacinas
 class Supplier(models.Model):
     name = models.CharField('Nome', max_length=100)
-    cnpj = models.CharField('CNPJ', max_length=18, blank=True, null=True)  # aceita vazio por enquanto
+    cnpj = models.CharField('CNPJ', max_length=18, blank=True, null=True)
     address = models.TextField('Endereço', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Fornecedor'
         verbose_name_plural = 'Fornecedores'
+        ordering = ['name']  # Ordenação padrão por nome
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
+# Modelo para vacinas
 class Vaccine(models.Model):
     name = models.CharField('Nome', max_length=100)
-    description = models.TextField('Descrição', blank=True, null=True)
-    type = models.ForeignKey(Type, on_delete=models.PROTECT)  # protege tipo usado por vacinas
-    doses = models.PositiveIntegerField('Número de doses', default=1)
-    supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, blank=True)
+    description = models.CharField('Descrição', max_length=255, blank=True, null=True)
+    type = models.ForeignKey(Type, verbose_name='Tipo', on_delete=models.PROTECT)  # Tipo da vacina
+    doses = models.PositiveIntegerField('Número de doses', default=1)  # Total de doses
+    supplier = models.ForeignKey(
+        Supplier,
+        verbose_name='Fornecedor',
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
 
     class Meta:
         verbose_name = 'Vacina'
         verbose_name_plural = 'Vacinas'
+        ordering = ['name']  # Ordenação por nome
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
+# Modelo para pessoas (pacientes)
 class Person(models.Model):
     name = models.CharField('Nome', max_length=100)
     cpf = models.CharField('CPF', max_length=14, unique=True)
@@ -51,11 +63,13 @@ class Person(models.Model):
     class Meta:
         verbose_name = 'Pessoa'
         verbose_name_plural = 'Pessoas'
+        ordering = ['name']  # Ordenação por nome
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
+# Modelo para clínicas
 class Clinic(models.Model):
     name = models.CharField('Nome', max_length=100)
     address = models.TextField('Endereço', blank=True, null=True)
@@ -64,45 +78,37 @@ class Clinic(models.Model):
     class Meta:
         verbose_name = 'Clínica'
         verbose_name_plural = 'Clínicas'
+        ordering = ['name']  # Ordenação por nome
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
-class Vaccination(models.Model):
-    vaccination_date = models.DateField('Data da vacinação')
-    clinic = models.ForeignKey(Clinic, on_delete=models.PROTECT)
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = 'Vacinação'
-        verbose_name_plural = 'Vacinações'
-        ordering = ['-vaccination_date']
-
-    def __str__(self):
-        return f"{self.person.name} - {self.vaccination_date}"
-
-
-class VaccineItem(models.Model):
-    quantity = models.PositiveIntegerField('Quantidade', default=1)
-    vaccine = models.ForeignKey(Vaccine, on_delete=models.PROTECT)
-    vaccination = models.ForeignKey(Vaccination, on_delete=models.CASCADE, related_name='items')
-
-    class Meta:
-        verbose_name = 'Item de Vacina'
-        verbose_name_plural = 'Itens de Vacina'
-
-    def __str__(self):
-        return f"{self.vaccine.name} - {self.quantity}"
-
-
+# Modelo para atendimentos (sessões de vacinação)
 class Session(models.Model):
-    session_date = models.DateField('Data da sessão')
-    vaccine_item = models.ForeignKey(VaccineItem, on_delete=models.CASCADE, related_name='sessions')
+    session_date = models.DateField('Data do Atendimento')
+    clinic = models.ForeignKey(
+        Clinic,
+        verbose_name='Clínica',
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
+    patient = models.ForeignKey(
+        Person,
+        verbose_name='Paciente',
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
+    vaccines = models.ManyToManyField(Vaccine, verbose_name='Vacinas', blank=True)  # Pode conter várias vacinas
 
     class Meta:
-        verbose_name = 'Sessão'
-        verbose_name_plural = 'Sessões'
+        verbose_name = 'Atendimento'
+        verbose_name_plural = 'Atendimentos'
+        ordering = ['session_date']  # Ordenação por data
 
     def __str__(self):
-        return f"Sessão em {self.session_date}"
+        clinic_name = self.clinic.name if self.clinic else "Sem clínica"
+        patient_name = self.patient.name if self.patient else "Sem paciente"
+        return f"Atendimento em {self.session_date} - {clinic_name} - {patient_name}"

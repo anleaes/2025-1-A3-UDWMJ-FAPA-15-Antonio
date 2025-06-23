@@ -1,16 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Type, Supplier, Vaccine, Person, Clinic, Vaccination, VaccineItem, Session
-from .forms import TypeForm, SupplierForm, VaccineForm, PersonForm, ClinicForm, VaccinationForm, VaccineItemForm, SessionForm
+from .models import Type, Supplier, Vaccine, Person, Clinic, Vaccination, Session
+from .forms import TypeForm, SupplierForm, VaccineForm, PersonForm, ClinicForm, VaccinationForm, SessionForm
+
+#este arquivo não modifica mais o projeto, mas é mantido para referência futura
+
+# -------- home -------- #
+def home(request):
+    return render(request, 'core/home.html')
 
 
-# Função auxiliar para listar registros de qualquer modelo
+# Função para listar registros de qualquer modelo
 def list_entities(request, model, template_name, context_name):
     objetos = model.objects.all()
     context = {context_name: objetos}
     return render(request, template_name, context)
 
 
-# Função auxiliar para adicionar registros de qualquer modelo
+# Função para adicionar registros de qualquer modelo
 def add_entity(request, form_class, template_name, redirect_name):
     if request.method == 'POST':
         form = form_class(request.POST)
@@ -22,7 +28,7 @@ def add_entity(request, form_class, template_name, redirect_name):
     return render(request, template_name, {'form': form})
 
 
-# Função auxiliar para editar registros de qualquer modelo
+# Função para editar registros de qualquer modelo
 def edit_entity(request, pk, model, form_class, template_name, redirect_name):
     obj = get_object_or_404(model, pk=pk)
     if request.method == 'POST':
@@ -126,20 +132,6 @@ def edit_vaccination(request, pk):
 
 def delete_vaccination(request, pk):
     return delete_entity(request, pk, Vaccination, 'vaccination/delete_vaccination.html', 'core:list_vaccination')
-
-
-# -------- VACCINE ITEM -------- #
-def list_vaccineitem(request):
-    return list_entities(request, VaccineItem, 'vaccineitem/list_vaccineitem.html', 'vaccineitems')
-
-def add_vaccineitem(request):
-    return add_entity(request, VaccineItemForm, 'vaccineitem/add_vaccineitem.html', 'core:list_vaccineitem')
-
-def edit_vaccineitem(request, pk):
-    return edit_entity(request, pk, VaccineItem, VaccineItemForm, 'vaccineitem/edit_vaccineitem.html', 'core:list_vaccineitem')
-
-def delete_vaccineitem(request, pk):
-    return delete_entity(request, pk, VaccineItem, 'vaccineitem/delete_vaccineitem.html', 'core:list_vaccineitem')
 
 
 # -------- SESSION -------- #

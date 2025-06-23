@@ -1,0 +1,22 @@
+.form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-container .row {
+  align-items: center;
+}
+
+.form-container input.form-control,
+.form-container select.form-control,
+.form-container textarea.form-control {
+  width: 100%;
+}
+
+.form-container label {
+  margin-bottom: 0;
+}

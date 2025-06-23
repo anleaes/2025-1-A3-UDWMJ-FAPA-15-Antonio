@@ -1,24 +1,43 @@
 {% extends 'core/home.html' %}
+
 {% block content %}
-<h1>Lista de Clínicas</h1>
-<table>
-  <tr>
-    <th>Nome</th>
-    <th>Endereço</th>
-    <th>Ações</th>
-  </tr>
-  {% for clinic in clinics %}
-  <tr>
-    <td>{{ clinic.name }}</td>
-    <td>{{ clinic.address }}</td>
-    <td>
-      <a href="{% url 'core:edit_clinic' clinic.id %}">Editar</a> |
-      <a href="{% url 'core:delete_clinic' clinic.id %}">Excluir</a>
-    </td>
-  </tr>
-  {% empty %}
-  <tr><td colspan="3">Nenhuma clínica cadastrada.</td></tr>
-  {% endfor %}
-</table>
-<a href="{% url 'core:add_clinic' %}">Adicionar Clínica</a>
+<div class="row justify-content-center">
+  <div class="col-md-10 col-lg-8">
+
+    <!-- Botão Home no topo -->
+    <a href="{% url 'core:home' %}" class="btn btn-outline-primary mb-3">Home</a>
+
+    <h2 class="mb-4 text-center">Lista de Clínicas</h2>
+
+    <!-- Botão Adicionar abaixo do título -->
+    <a href="{% url 'core:add_clinic' %}" class="btn btn-success mb-3">Adicionar Clínica</a>
+
+    <table class="table table-striped table-bordered text-center">
+      <thead class="align-middle text-center">
+        <tr>
+          <th>Nome</th>
+          <th>Endereço</th>
+          <th style="width: 150px;">Ações</th>
+        </tr>
+      </thead>
+      <tbody class="align-middle">
+        {% for clinic in clinics %}
+        <tr>
+          <td class="text-start">{{ clinic.name }}</td>
+          <td class="text-start">{{ clinic.address }}</td>
+          <td>
+            <a href="{% url 'core:edit_clinic' clinic.id %}" class="btn btn-sm btn-primary me-2">Editar</a>
+            <a href="{% url 'core:delete_clinic' clinic.id %}" class="btn btn-sm btn-danger">Excluir</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3" class="text-center">Nenhuma clínica cadastrada.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</div>
 {% endblock %}

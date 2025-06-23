@@ -1,11 +1,30 @@
 {% extends 'core/home.html' %}
+
 {% block title %}Editar Vacina{% endblock %}
+
 {% block content %}
-<h2>Editar Vacina</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Salvar Alterações</button>
-  <a href="{% url 'core:list_vaccines' %}">Cancelar</a>
-</form>
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <h2 class="text-center mb-4">Editar Vacina</h2>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger small">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        <a href="{% url 'core:list_vaccine' %}" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}
