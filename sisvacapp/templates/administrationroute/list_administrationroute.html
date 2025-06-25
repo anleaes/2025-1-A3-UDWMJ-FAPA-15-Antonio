@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-10 col-lg-8">
+    <a href="{% url 'core:home' %}" class="btn btn-outline-primary mb-3">Home</a>
+    <h2 class="mb-4 text-center">Lista de Vias de Administração</h2>
+    <a href="{% url 'administrationroute:add_administrationroute' %}" class="btn btn-success mb-3">Adicionar Via de Administração</a>
+    <table class="table table-striped table-bordered text-center">
+      <thead class="align-middle text-center">
+        <tr>
+          <th>Nome</th>
+          <th style="width: 150px;">Ações</th>
+        </tr>
+      </thead>
+      <tbody class="align-middle">
+        {% for route in routes %}
+        <tr>
+          <td class="text-start">{{ route.name }}</td>
+          <td>
+            <a href="{% url 'administrationroute:edit_administrationroute' route.id %}" class="btn btn-sm btn-primary me-2">Editar</a>
+            <a href="{% url 'administrationroute:delete_administrationroute' route.id %}" class="btn btn-sm btn-danger">Excluir</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="2" class="text-center">Nenhuma via cadastrada.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
