@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Adicionar Profissional{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <a href="{% url 'core:home' %}" class="btn btn-outline-primary mb-3">Home</a>
+    <h2 class="text-center mb-4">Adicionar Profissional</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger small">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a href="{% url 'professional:list_professional' %}" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
