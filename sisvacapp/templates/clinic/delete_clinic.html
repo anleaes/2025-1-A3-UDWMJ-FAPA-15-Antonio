@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+
+    <h2 class="text-center mb-4 text-danger">Excluir Clínica</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} text-center">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if not has_protected_error and not is_deleted %}
+      <p class="text-center">
+        Tem certeza que deseja excluir a clínica:
+        <strong>{{ object.name }}</strong>?
+      </p>
+    {% elif is_deleted %}
+      <p class="text-center text-success fw-bold">
+        A clínica <strong>{{ object.name }}</strong> foi excluída com sucesso.
+      </p>
+    {% endif %}
+
+    <form method="post" class="text-center">
+      {% csrf_token %}
+      {% if not has_protected_error and not is_deleted %}
+        <button type="submit" class="btn btn-danger me-3">Confirmar exclusão</button>
+      {% endif %}
+      <a href="{% url 'clinic:list_clinic' %}" class="btn btn-secondary">Voltar</a>
+    </form>
+
+  </div>
+</div>
+{% endblock %}
