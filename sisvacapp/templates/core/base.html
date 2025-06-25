@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}SISVAC{% endblock %}</title>
+
+  <!-- Bootstrap CSSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+</head>
+<body>
+
+  <button id="toggle-dark" class="btn btn-outline-secondary position-fixed" style="top: 150px; right: 20px; z-index: 999;">
+    Modo Noturno
+  </button>
+
+  <header class="bg-primary text-white p-4 mb-4">
+    <h1 class="container text-center" style="font-size: 50px;">Sistema de Vacinas SISVAC</h1>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="bg-light text-center p-3 mt-4">
+    <p>© 2025 Henrique Boff Silva</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Script para Modo Noturno temporário só pra eu não desenvolver e ficar cego (remover depois)-->
+  <script>
+const btn = document.getElementById('toggle-dark');
+  function setNightMode(on) {
+    document.body.classList.toggle('bg-dark', on);
+    document.body.classList.toggle('text-light', on);
+    btn.innerText = on ? 'Modo Claro' : 'Modo Noturno';
+  }
+  // Carrega preferência ao abrir a página
+  const nightPref = localStorage.getItem('nightMode') === 'on';
+  setNightMode(nightPref);
+
+  btn.onclick = function() {
+    const isNight = !document.body.classList.contains('bg-dark');
+    setNightMode(isNight);
+    localStorage.setItem('nightMode', isNight ? 'on' : 'off');
+  }
+</script>
+</body>
+</html>
