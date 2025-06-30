@@ -4,6 +4,11 @@ from django.db import models
 class AdministrationRoute(models.Model):
     name = models.CharField('Via de administração', max_length=50)
 
+    def save(self, *args, **kwargs):
+        if self.name:
+            self.name = self.name.upper()
+        super().save(*args, **kwargs)
+
     class Meta:
         db_table = 'CORE_ADMINISTRATIONROUTE'
 

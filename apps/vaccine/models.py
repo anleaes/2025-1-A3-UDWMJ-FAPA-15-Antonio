@@ -16,6 +16,12 @@ class Vaccine(models.Model):
         blank=True
     )
 
+    # Este método sobrescreve o save para garantir que o campo de nome seja salvo em letras maiúsculas no banco de dados.
+    def save(self, *args, **kwargs):
+        if self.name:
+            self.name = self.name.upper()
+        super().save(*args, **kwargs)
+
     class Meta:
         db_table = 'CORE_VACCINE'
 
